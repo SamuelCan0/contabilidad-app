@@ -3,6 +3,7 @@ import Dashboard from './Dashboard.jsx'
 import Login from './Login.jsx'
 import MovementForm from './MovementForm.jsx'
 import MovementList from './MovementList.jsx'
+import { hoy } from './resumen.js'
 import {
   actualizarMovimiento,
   borrarMovimiento,
@@ -63,6 +64,14 @@ function Contabilidad({ correo }) {
       setEditando(null)
     })
 
+  // Un pendiente cobrado se vuelve ingreso con la fecha de hoy.
+  const pagar = (m) =>
+    intentar(async () => {
+      const guardado = await actualizarMovimiento({ ...m, tipo: 'ingreso', fecha: hoy() })
+      setMovimientos((prev) => prev.map((x) => (x.id === guardado.id ? guardado : x)))
+      if (editando?.id === guardado.id) setEditando(null)
+    })
+
   const borrar = (id) =>
     intentar(async () => {
       await borrarMovimiento(id)
@@ -91,7 +100,7 @@ function Contabilidad({ correo }) {
               <p className="vacio">Cargando…</p>
             </section>
           ) : (
-            <Dashboard movimientos={movimientos} />
+            <Dashboard movimientos={movimientos} onPagar={pagar} />
           )}
           <section className="area-form">
             <div className="cabecera">
@@ -109,7 +118,12 @@ function Contabilidad({ correo }) {
               <h2>Movimientos</h2>
               <small>{movimientos.length} en total</small>
             </div>
-            <MovementList movimientos={ordenados} onEditar={setEditando} onBorrar={borrar} />
+            <MovementList
+              movimientos={ordenados}
+              onEditar={setEditando}
+              onBorrar={borrar}
+              onPagar={pagar}
+            />
           </section>
         </div>
       </main>

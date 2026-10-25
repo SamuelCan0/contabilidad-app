@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { CATEGORIAS, formatoCorto, formatoMXN } from './categories.js'
-import { nombreMes, porMes, totales } from './resumen.js'
+import { fechaCorta, nombreMes, porMes, totales } from './resumen.js'
 
 const ALTO = 220
 const MAX_MESES = 12
@@ -112,12 +112,57 @@ function PorCategoria({ movimientos, tipo }) {
 
 const cuantos = (n) => `${n} ${n === 1 ? 'movimiento' : 'movimientos'}`
 
-export default function Dashboard({ movimientos }) {
+function Pendientes({ pendientes, periodo, onPagar }) {
+  const suma = pendientes.reduce((a, m) => a + m.monto, 0)
+  const ordenados = [...pendientes].sort((a, b) => a.fecha.localeCompare(b.fecha))
+
+  return (
+    <section className="area-pendientes">
+      <div className="cabecera">
+        <h2>Pagos pendientes</h2>
+        <small>{periodo}</small>
+      </div>
+      {pendientes.length === 0 ? (
+        <p className="vacio">No hay pagos pendientes.</p>
+      ) : (
+        <>
+          <p className="pendientes-total">
+            <strong>{formatoCorto.format(suma)}</strong> por cobrar en{' '}
+            {pendientes.length} {pendientes.length === 1 ? 'pago' : 'pagos'}
+          </p>
+          <ul className="pendientes-lista">
+            {ordenados.map((m) => (
+              <li key={m.id}>
+                <div>
+                  <strong>{m.categoria}</strong>
+                  <small>
+                    {fechaCorta(m.fecha)}
+                    {m.nota && ` · ${m.nota}`}
+                  </small>
+                </div>
+                <span className="monto">{formatoMXN.format(m.monto)}</span>
+                <button type="button" className="pagar" onClick={() => onPagar(m)}>
+                  Marcar como pagado
+                </button>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </section>
+  )
+}
+
+export default function Dashboard({ movimientos, onPagar }) {
   const [mes, setMes] = useState('')
   const meses = porMes(movimientos)
+  // El filtro incluye meses que solo tienen pagos pendientes.
+  const opciones = [...new Set(movimientos.map((m) => m.fecha.slice(0, 7)))].sort().reverse()
   const filtrados = mes ? movimientos.filter((m) => m.fecha.startsWith(mes)) : movimientos
+  const pendientes = filtrados.filter((m) => m.tipo === 'pendiente')
   const t = totales(filtrados)
   const nIngresos = filtrados.filter((m) => m.tipo === 'ingreso').length
+  const nGastos = filtrados.filter((m) => m.tipo === 'gasto').length
   const margen = t.ingresos > 0 ? Math.round((t.total / t.ingresos) * 100) : null
   const periodo = mes ? nombreMes(mes) : 'todo el histórico'
 
@@ -129,9 +174,9 @@ export default function Dashboard({ movimientos }) {
           <div className="filtro">
             <select value={mes} onChange={(e) => setMes(e.target.value)} aria-label="Periodo">
               <option value="">Todo el histórico</option>
-              {[...meses].reverse().map((m) => (
-                <option key={m.mes} value={m.mes}>
-                  {nombreMes(m.mes)}
+              {opciones.map((clave) => (
+                <option key={clave} value={clave}>
+                  {nombreMes(clave)}
                 </option>
               ))}
             </select>
@@ -146,7 +191,7 @@ export default function Dashboard({ movimientos }) {
           <div className="indicador gasto">
             <small>Gastos</small>
             <strong>{formatoCorto.format(t.gastos)}</strong>
-            <span>{cuantos(filtrados.length - nIngresos)}</span>
+            <span>{cuantos(nGastos)}</span>
           </div>
           <div className="indicador total">
             <small>Total</small>
@@ -183,6 +228,7 @@ export default function Dashboard({ movimientos }) {
           </details>
         )}
       </section>
+      <Pendientes pendientes={pendientes} periodo={periodo} onPagar={onPagar} />
       <section className="area-categorias">
         <div className="cabecera">
           <h2>Por categoría</h2>

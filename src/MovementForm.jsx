@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { CATEGORIAS } from './categories.js'
+import { hoy } from './resumen.js'
 
-const hoy = () => new Date().toISOString().slice(0, 10)
+const NOMBRES = { ingreso: 'Ingreso', gasto: 'Gasto', pendiente: 'Pendiente' }
 
 const vacio = () => ({
   tipo: 'gasto',
@@ -30,20 +31,23 @@ export default function MovementForm({ inicial, onGuardar, onCancelar }) {
   return (
     <form className="form" onSubmit={enviar}>
       <div className="tipo">
-        {['ingreso', 'gasto'].map((t) => (
+        {Object.keys(NOMBRES).map((t) => (
           <button
             key={t}
             type="button"
             className={datos.tipo === t ? `activo ${t}` : ''}
             onClick={() => cambiarTipo(t)}
           >
-            {t === 'ingreso' ? 'Ingreso' : 'Gasto'}
+            {NOMBRES[t]}
           </button>
         ))}
       </div>
+      {datos.tipo === 'pendiente' && (
+        <p className="aviso">Pago por cobrar. No cuenta en ingresos hasta que lo marques como pagado.</p>
+      )}
       <div className="dos-columnas">
         <label>
-          Fecha
+          {datos.tipo === 'pendiente' ? 'Fecha del pedido' : 'Fecha'}
           <input type="date" value={datos.fecha} onChange={cambiar('fecha')} required />
         </label>
         <label>
