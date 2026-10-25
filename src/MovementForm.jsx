@@ -9,6 +9,7 @@ const vacio = () => ({
   fecha: hoy(),
   monto: '',
   categoria: CATEGORIAS.gasto[0],
+  cliente: '',
   nota: '',
 })
 
@@ -24,7 +25,7 @@ export default function MovementForm({ inicial, onGuardar, onCancelar }) {
     e.preventDefault()
     const monto = Number(datos.monto)
     if (!(monto > 0)) return
-    onGuardar({ ...datos, monto })
+    onGuardar({ ...datos, monto, cliente: datos.cliente.trim() })
     if (!inicial) setDatos({ ...vacio(), tipo: datos.tipo, categoria: datos.categoria })
   }
 
@@ -63,6 +64,15 @@ export default function MovementForm({ inicial, onGuardar, onCancelar }) {
           />
         </label>
       </div>
+      <label>
+        {datos.tipo === 'gasto' ? 'Proveedor' : 'Cliente'}
+        <input
+          value={datos.cliente}
+          onChange={cambiar('cliente')}
+          placeholder={datos.tipo === 'gasto' ? 'Ej. Ferretería López (opcional)' : 'Ej. María Pérez (opcional)'}
+          maxLength={80}
+        />
+      </label>
       <label>
         Categoría
         <select value={datos.categoria} onChange={cambiar('categoria')}>

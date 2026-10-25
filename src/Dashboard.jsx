@@ -134,8 +134,9 @@ function Pendientes({ pendientes, periodo, onPagar }) {
             {ordenados.map((m) => (
               <li key={m.id}>
                 <div>
-                  <strong>{m.categoria}</strong>
+                  <strong>{m.cliente || m.categoria}</strong>
                   <small>
+                    {m.cliente && `${m.categoria} · `}
                     {fechaCorta(m.fecha)}
                     {m.nota && ` · ${m.nota}`}
                   </small>

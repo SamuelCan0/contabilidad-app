@@ -8,21 +8,31 @@ export default function MovementList({ movimientos, onEditar, onBorrar, onPagar 
 
   return (
     <ul className="lista">
+      <li className="encabezado" aria-hidden="true">
+        <span>Fecha</span>
+        <span>Nombre</span>
+        <span>Categoría</span>
+        <span className="monto">Monto</span>
+        <span className="botones">Acciones</span>
+      </li>
       {movimientos.map((m) => (
         <li key={m.id} className={m.tipo === 'pendiente' ? 'pendiente' : undefined}>
           <span className="fecha">{fechaCorta(m.fecha)}</span>
           <div className="concepto">
             <strong>
               <i className={`punto ${m.tipo}`} aria-hidden="true" />
-              {m.categoria}
+              {m.cliente || <span className="sin-nombre">Sin nombre</span>}
               {m.tipo === 'pendiente' && <span className="etiqueta-pendiente">Pendiente</span>}
             </strong>
             <small>
-              <span className="fecha-movil">{fechaCorta(m.fecha)}</span>
-              {m.nota && <span className="fecha-movil"> · </span>}
+              <span className="solo-movil">
+                {m.categoria} · {fechaCorta(m.fecha)}
+                {m.nota && ' · '}
+              </span>
               {m.nota}
             </small>
           </div>
+          <span className="categoria">{m.categoria}</span>
           <span className={`monto ${m.tipo}`}>
             {m.tipo === 'gasto' ? '−' : m.tipo === 'ingreso' ? '+' : ''}
             {formatoMXN.format(m.monto)}

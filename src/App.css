@@ -573,8 +573,15 @@ button:disabled {
   border-top: 0;
 }
 
-.lista .fecha {
+.lista .fecha,
+.lista .categoria,
+.lista li.encabezado {
   display: none;
+}
+
+.sin-nombre {
+  color: var(--muted);
+  font-weight: 400;
 }
 
 .lista .concepto strong {
@@ -736,7 +743,7 @@ button.pagar {
 /* En pantallas anchas cada movimiento va en un solo renglón */
 @media (min-width: 700px) {
   .lista li {
-    grid-template-columns: 110px minmax(0, 1fr) auto auto;
+    grid-template-columns: 100px minmax(0, 1.3fr) minmax(0, 1fr) 110px 220px;
     gap: 16px;
     padding: 10px 8px;
     border-radius: 8px;
@@ -753,12 +760,52 @@ button.pagar {
     font-variant-numeric: tabular-nums;
   }
 
-  .lista .concepto .fecha-movil {
+  .lista .concepto .solo-movil {
     display: none;
+  }
+
+  .lista .concepto strong {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .lista .categoria {
+    display: block;
+    color: var(--muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .lista li.encabezado {
+    display: grid;
+    padding-top: 0;
+    padding-bottom: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+
+  .lista li.encabezado:hover {
+    background: none;
+  }
+
+  .lista li.encabezado + li {
+    border-top: 0;
+  }
+
+  .lista li.encabezado .botones {
+    opacity: 1;
   }
 
   .lista .botones {
     grid-column: auto;
+    flex-wrap: wrap;
+    justify-content: flex-end;
     opacity: 0.55;
   }
 
