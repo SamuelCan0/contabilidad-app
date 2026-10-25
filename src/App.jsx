@@ -21,7 +21,7 @@ function App() {
     return () => data.subscription.unsubscribe()
   }, [])
 
-  if (sesion === undefined) return <main><p>Cargando…</p></main>
+  if (sesion === undefined) return <p className="cargando">Cargando…</p>
   if (!sesion) return <Login />
   return <Contabilidad correo={sesion.user.email} />
 }
@@ -70,35 +70,50 @@ function Contabilidad({ correo }) {
     })
 
   return (
-    <main>
-      <header className="encabezado">
-        <h1>Contabilidad</h1>
-        <div>
+    <>
+      <header className="barra-superior">
+        <div className="marca">
+          <span className="logo" aria-hidden="true">C</span>
+          <h1>Contabilidad</h1>
+        </div>
+        <div className="usuario">
           <small>{correo}</small>
           <button type="button" onClick={() => supabase.auth.signOut()}>
             Salir
           </button>
         </div>
       </header>
-      {error && <p className="error">{error}</p>}
-      <section>
-        <h2>Resumen</h2>
-        {cargando ? <p>Cargando…</p> : <Dashboard movimientos={movimientos} />}
-      </section>
-      <section>
-        <h2>{editando ? 'Editar movimiento' : 'Nuevo movimiento'}</h2>
-        <MovementForm
-          key={editando?.id ?? 'nuevo'}
-          inicial={editando}
-          onGuardar={editando ? actualizar : agregar}
-          onCancelar={editando ? () => setEditando(null) : undefined}
-        />
-      </section>
-      <section>
-        <h2>Movimientos</h2>
-        <MovementList movimientos={ordenados} onEditar={setEditando} onBorrar={borrar} />
-      </section>
-    </main>
+      <main className="contenido">
+        {error && <p className="error">{error}</p>}
+        <div className="tablero">
+          {cargando ? (
+            <section className="area-resumen">
+              <p className="vacio">Cargando…</p>
+            </section>
+          ) : (
+            <Dashboard movimientos={movimientos} />
+          )}
+          <section className="area-form">
+            <div className="cabecera">
+              <h2>{editando ? 'Editar movimiento' : 'Nuevo movimiento'}</h2>
+            </div>
+            <MovementForm
+              key={editando?.id ?? 'nuevo'}
+              inicial={editando}
+              onGuardar={editando ? actualizar : agregar}
+              onCancelar={editando ? () => setEditando(null) : undefined}
+            />
+          </section>
+          <section className="area-movimientos">
+            <div className="cabecera">
+              <h2>Movimientos</h2>
+              <small>{movimientos.length} en total</small>
+            </div>
+            <MovementList movimientos={ordenados} onEditar={setEditando} onBorrar={borrar} />
+          </section>
+        </div>
+      </main>
+    </>
   )
 }
 
