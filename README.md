@@ -1,16 +1,21 @@
-# React + Vite
+# Contabilidad
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+App web para registrar ingresos y gastos del negocio y verlos en un dashboard.
+Hecha con React + Vite. Los datos viven en Supabase.
 
-Currently, two official plugins are available:
+## Correr en tu compu
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```
+npm install
+npm run dev
+```
 
-## React Compiler
+## Configurar Supabase (una sola vez)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. En Supabase → SQL Editor, pega y corre `supabase/schema.sql`.
+2. En Authentication → Sign In / Providers, apaga "Allow new users to sign up".
+3. En Authentication → Users → Add user, crea un usuario por socio (correo y contraseña).
 
-## Expanding the Oxlint configuration
+## Publicar en Vercel
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Importa el repo en vercel.com. Vercel detecta Vite solo. Las variables de `.env` ya vienen en el repo.

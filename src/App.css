@@ -278,3 +278,22 @@ button {
 .tabla {
   overflow-x: auto;
 }
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.encabezado div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.error {
+  color: var(--negativo);
+  margin: 0 0 12px;
+}

@@ -1,15 +1,43 @@
-// Por ahora los movimientos viven en el navegador.
-// En el paso 4 este módulo se cambia por Supabase sin tocar los componentes.
-const KEY = 'contabilidad.movimientos'
+import { supabase } from './supabase.js'
 
-export function cargarMovimientos() {
-  try {
-    return JSON.parse(localStorage.getItem(KEY)) ?? []
-  } catch {
-    return []
-  }
+const CAMPOS = 'id, tipo, fecha, monto, categoria, nota'
+
+// Supabase regresa numeric como texto; lo convertimos a número.
+const normalizar = (m) => ({ ...m, monto: Number(m.monto) })
+
+function revisar({ data, error }) {
+  if (error) throw error
+  return data
 }
 
-export function guardarMovimientos(movimientos) {
-  localStorage.setItem(KEY, JSON.stringify(movimientos))
+export async function cargarMovimientos() {
+  const data = revisar(await supabase.from('movimientos').select(CAMPOS))
+  return data.map(normalizar)
+}
+
+export async function crearMovimiento({ tipo, fecha, monto, categoria, nota }) {
+  const data = revisar(
+    await supabase
+      .from('movimientos')
+      .insert({ tipo, fecha, monto, categoria, nota })
+      .select(CAMPOS)
+      .single(),
+  )
+  return normalizar(data)
+}
+
+export async function actualizarMovimiento({ id, tipo, fecha, monto, categoria, nota }) {
+  const data = revisar(
+    await supabase
+      .from('movimientos')
+      .update({ tipo, fecha, monto, categoria, nota })
+      .eq('id', id)
+      .select(CAMPOS)
+      .single(),
+  )
+  return normalizar(data)
+}
+
+export async function borrarMovimiento(id) {
+  revisar(await supabase.from('movimientos').delete().eq('id', id))
 }
