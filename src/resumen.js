@@ -5,6 +5,11 @@ export const nombreMes = (clave) => {
   return `${MESES[Number(mes) - 1]} ${anio.slice(2)}`
 }
 
+export const fechaCorta = (fecha) => {
+  const [anio, mes, dia] = fecha.split('-')
+  return `${Number(dia)} ${MESES[Number(mes) - 1]} ${anio}`
+}
+
 export function totales(movimientos) {
   let ingresos = 0
   let gastos = 0

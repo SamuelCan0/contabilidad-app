@@ -1,15 +1,18 @@
 :root {
   --text: #4b4654;
   --text-h: #08060d;
-  --bg: #f7f7f8;
+  --muted: #7a7582;
+  --bg: #f4f4f6;
   --card: #fff;
   --border: #e5e4e7;
+  --hover: #f1f1f4;
   --accent: #2563eb;
   --ingreso: #2a78d6;
   --gasto: #eb6834;
   --negativo: #b91c1c;
+  --sombra: 0 1px 2px rgb(16 12 24 / 4%), 0 2px 8px rgb(16 12 24 / 4%);
 
-  font: 16px/1.45 system-ui, 'Segoe UI', Roboto, sans-serif;
+  font: 15px/1.5 system-ui, 'Segoe UI', Roboto, sans-serif;
   color-scheme: light dark;
   color: var(--text);
   background: var(--bg);
@@ -19,13 +22,16 @@
   :root {
     --text: #b4b8c0;
     --text-h: #f3f4f6;
-    --bg: #16171d;
-    --card: #1f2028;
-    --border: #2e303a;
+    --muted: #8a8f99;
+    --bg: #121318;
+    --card: #1c1d24;
+    --border: #2c2e38;
+    --hover: #24262f;
     --accent: #60a5fa;
     --ingreso: #3987e5;
     --gasto: #d95926;
     --negativo: #f87171;
+    --sombra: none;
   }
 }
 
@@ -34,7 +40,8 @@ body {
 }
 
 h1,
-h2 {
+h2,
+h3 {
   color: var(--text-h);
   font-weight: 600;
 }

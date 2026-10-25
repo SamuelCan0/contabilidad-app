@@ -17,9 +17,12 @@ export default function Login() {
   }
 
   return (
-    <main>
-      <h1>Contabilidad</h1>
+    <main className="login">
       <section>
+        <div className="marca">
+          <span className="logo" aria-hidden="true">C</span>
+          <h1>Contabilidad</h1>
+        </div>
         <h2>Iniciar sesión</h2>
         <form className="form" onSubmit={entrar}>
           <label>

@@ -41,22 +41,24 @@ export default function MovementForm({ inicial, onGuardar, onCancelar }) {
           </button>
         ))}
       </div>
-      <label>
-        Fecha
-        <input type="date" value={datos.fecha} onChange={cambiar('fecha')} required />
-      </label>
-      <label>
-        Monto (MXN)
-        <input
-          type="number"
-          inputMode="decimal"
-          min="0.01"
-          step="0.01"
-          value={datos.monto}
-          onChange={cambiar('monto')}
-          required
-        />
-      </label>
+      <div className="dos-columnas">
+        <label>
+          Fecha
+          <input type="date" value={datos.fecha} onChange={cambiar('fecha')} required />
+        </label>
+        <label>
+          Monto (MXN)
+          <input
+            type="number"
+            inputMode="decimal"
+            min="0.01"
+            step="0.01"
+            value={datos.monto}
+            onChange={cambiar('monto')}
+            required
+          />
+        </label>
+      </div>
       <label>
         Categoría
         <select value={datos.categoria} onChange={cambiar('categoria')}>
