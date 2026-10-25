@@ -6,6 +6,7 @@ create table if not exists public.movimientos (
   fecha date not null,
   monto numeric(12, 2) not null check (monto > 0),
   categoria text not null,
+  cliente text not null default '',
   nota text not null default '',
   creado_por uuid references auth.users default auth.uid(),
   creado_en timestamptz not null default now()
@@ -25,3 +26,6 @@ create policy "socios pueden todo" on public.movimientos
 alter table public.movimientos drop constraint if exists movimientos_tipo_check;
 alter table public.movimientos add constraint movimientos_tipo_check
   check (tipo in ('ingreso', 'gasto', 'pendiente'));
+
+-- Si la tabla ya existía, esto agrega el nombre del cliente o proveedor.
+alter table public.movimientos add column if not exists cliente text not null default '';

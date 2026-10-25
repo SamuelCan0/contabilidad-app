@@ -1,9 +1,9 @@
 import { supabase } from './supabase.js'
 
-const CAMPOS = 'id, tipo, fecha, monto, categoria, nota'
+const CAMPOS = 'id, tipo, fecha, monto, categoria, cliente, nota'
 
 // Supabase regresa numeric como texto; lo convertimos a número.
-const normalizar = (m) => ({ ...m, monto: Number(m.monto) })
+const normalizar = (m) => ({ ...m, monto: Number(m.monto), cliente: m.cliente ?? '' })
 
 function revisar({ data, error }) {
   if (error) throw error
@@ -15,22 +15,22 @@ export async function cargarMovimientos() {
   return data.map(normalizar)
 }
 
-export async function crearMovimiento({ tipo, fecha, monto, categoria, nota }) {
+export async function crearMovimiento({ tipo, fecha, monto, categoria, cliente, nota }) {
   const data = revisar(
     await supabase
       .from('movimientos')
-      .insert({ tipo, fecha, monto, categoria, nota })
+      .insert({ tipo, fecha, monto, categoria, cliente, nota })
       .select(CAMPOS)
       .single(),
   )
   return normalizar(data)
 }
 
-export async function actualizarMovimiento({ id, tipo, fecha, monto, categoria, nota }) {
+export async function actualizarMovimiento({ id, tipo, fecha, monto, categoria, cliente, nota }) {
   const data = revisar(
     await supabase
       .from('movimientos')
-      .update({ tipo, fecha, monto, categoria, nota })
+      .update({ tipo, fecha, monto, categoria, cliente, nota })
       .eq('id', id)
       .select(CAMPOS)
       .single(),
