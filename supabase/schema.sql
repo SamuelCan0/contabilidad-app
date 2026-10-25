@@ -2,7 +2,7 @@
 
 create table if not exists public.movimientos (
   id uuid primary key default gen_random_uuid(),
-  tipo text not null check (tipo in ('ingreso', 'gasto')),
+  tipo text not null check (tipo in ('ingreso', 'gasto', 'pendiente')),
   fecha date not null,
   monto numeric(12, 2) not null check (monto > 0),
   categoria text not null,
@@ -20,3 +20,8 @@ create policy "socios pueden todo" on public.movimientos
   for all to authenticated
   using (true)
   with check (true);
+
+-- Si la tabla ya existía, esto permite el tipo 'pendiente' (pagos por cobrar).
+alter table public.movimientos drop constraint if exists movimientos_tipo_check;
+alter table public.movimientos add constraint movimientos_tipo_check
+  check (tipo in ('ingreso', 'gasto', 'pendiente'));

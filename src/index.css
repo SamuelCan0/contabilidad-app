@@ -9,6 +9,9 @@
   --accent: #2563eb;
   --ingreso: #2a78d6;
   --gasto: #eb6834;
+  --pendiente: #eab308;
+  --pendiente-fondo: #fef9c3;
+  --pendiente-texto: #854d0e;
   --negativo: #b91c1c;
   --sombra: 0 1px 2px rgb(16 12 24 / 4%), 0 2px 8px rgb(16 12 24 / 4%);
 
@@ -30,6 +33,9 @@
     --accent: #60a5fa;
     --ingreso: #3987e5;
     --gasto: #d95926;
+    --pendiente: #facc15;
+    --pendiente-fondo: #3a3110;
+    --pendiente-texto: #fde68a;
     --negativo: #f87171;
     --sombra: none;
   }

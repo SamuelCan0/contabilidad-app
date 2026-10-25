@@ -61,6 +61,7 @@
   grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
     'resumen'
+    'pendientes'
     'form'
     'categorias'
     'movimientos';
@@ -70,6 +71,7 @@
 .area-form { grid-area: form; }
 .area-categorias { grid-area: categorias; }
 .area-movimientos { grid-area: movimientos; }
+.area-pendientes { grid-area: pendientes; }
 
 /* Tablet: formulario y categorías lado a lado */
 @media (min-width: 700px) {
@@ -77,6 +79,7 @@
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     grid-template-areas:
       'resumen resumen'
+      'pendientes pendientes'
       'form categorias'
       'movimientos movimientos';
   }
@@ -86,9 +89,10 @@
 @media (min-width: 1080px) {
   .tablero {
     grid-template-columns: minmax(0, 1fr) 340px;
-    grid-template-rows: auto auto 1fr;
+    grid-template-rows: auto auto auto 1fr;
     grid-template-areas:
       'resumen form'
+      'pendientes form'
       'categorias form'
       'movimientos form';
     gap: 24px;
@@ -210,7 +214,7 @@ button:disabled {
 
 .tipo {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 4px;
   padding: 4px;
   background: var(--bg);
@@ -232,6 +236,20 @@ button:disabled {
 .tipo .activo.gasto {
   background: var(--gasto);
   color: #fff;
+}
+
+.tipo .activo.pendiente {
+  background: var(--pendiente);
+  color: #422006;
+}
+
+.aviso {
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  background: var(--pendiente-fondo);
+  color: var(--pendiente-texto);
 }
 
 .acciones {
@@ -608,6 +626,107 @@ button:disabled {
 
 .punto.ingreso { background: var(--ingreso); }
 .punto.gasto { background: var(--gasto); }
+.punto.pendiente { background: var(--pendiente); }
+
+/* ---------- Pagos pendientes (amarillo) ---------- */
+
+.lista li.pendiente {
+  background: var(--pendiente-fondo);
+  border-radius: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.lista li.pendiente + li {
+  border-top-color: transparent;
+}
+
+.lista .monto.pendiente {
+  color: var(--pendiente-texto);
+}
+
+.etiqueta-pendiente {
+  margin-left: 8px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: var(--pendiente);
+  color: #422006;
+}
+
+button.pagar {
+  background: var(--pendiente);
+  border-color: var(--pendiente);
+  color: #422006;
+  font-weight: 500;
+}
+
+.area-pendientes {
+  border-top: 3px solid var(--pendiente);
+}
+
+.pendientes-total {
+  margin: 0 0 12px;
+  color: var(--muted);
+}
+
+.pendientes-total strong {
+  color: var(--text-h);
+  font-size: 22px;
+  font-variant-numeric: tabular-nums;
+  margin-right: 4px;
+}
+
+.pendientes-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.pendientes-lista li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 12px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--pendiente-fondo);
+}
+
+.pendientes-lista strong {
+  color: var(--text-h);
+  font-weight: 500;
+}
+
+.pendientes-lista small {
+  display: block;
+  color: var(--pendiente-texto);
+}
+
+.pendientes-lista .monto {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--pendiente-texto);
+}
+
+.pendientes-lista .pagar {
+  grid-column: 1 / -1;
+  justify-self: start;
+  padding: 4px 10px;
+  font-size: 13px;
+}
+
+@media (min-width: 700px) {
+  .pendientes-lista li {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+  }
+
+  .pendientes-lista .pagar {
+    grid-column: auto;
+  }
+}
 
 .vacio {
   margin: 0;
@@ -705,4 +824,13 @@ button:disabled {
 
 .cargando {
   padding: 24px;
+}
+
+/* Los pendientes se quedan amarillos aunque pase el cursor */
+.lista li.pendiente:hover {
+  background: var(--pendiente-fondo);
+}
+
+.lista li.pendiente .botones {
+  opacity: 1;
 }
