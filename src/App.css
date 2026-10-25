@@ -126,3 +126,155 @@ button {
 .vacio {
   margin: 0;
 }
+
+.filtro select {
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text-h);
+  margin-bottom: 12px;
+}
+
+.tarjetas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.tarjetas div {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  min-width: 0;
+}
+
+.tarjetas small {
+  display: block;
+  font-size: 13px;
+}
+
+.tarjetas strong {
+  color: var(--text-h);
+  font-size: clamp(14px, 4vw, 20px);
+  overflow-wrap: anywhere;
+}
+
+.tarjetas .negativo {
+  color: var(--negativo);
+}
+
+.grafica {
+  margin-top: 16px;
+}
+
+.leyenda {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.leyenda i {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  margin-right: 4px;
+}
+
+.leyenda .ingreso,
+.barra.ingreso {
+  background: var(--ingreso);
+}
+
+.leyenda .gasto,
+.barra.gasto {
+  background: var(--gasto);
+}
+
+.barras,
+.etiquetas {
+  display: flex;
+  gap: 4px;
+}
+
+.barras {
+  align-items: flex-end;
+  border-bottom: 1px solid var(--border);
+}
+
+.mes {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.mes:hover {
+  background: color-mix(in srgb, var(--border) 50%, transparent);
+}
+
+.par {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  width: 70%;
+  max-width: 40px;
+  height: 100%;
+}
+
+.barra {
+  flex: 1;
+  border-radius: 4px 4px 0 0;
+}
+
+.etiquetas span {
+  flex: 1;
+  text-align: center;
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.detalle {
+  font-size: 13px;
+  margin: 8px 0 0;
+  min-height: 2.6em;
+}
+
+.tabla {
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.tabla summary {
+  cursor: pointer;
+}
+
+.tabla table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.tabla th,
+.tabla td {
+  text-align: right;
+  padding: 4px;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--border);
+}
+
+.tabla th:first-child,
+.tabla td:first-child {
+  text-align: left;
+}
+
+.tabla {
+  overflow-x: auto;
+}

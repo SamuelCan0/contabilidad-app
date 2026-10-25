@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import Dashboard from './Dashboard.jsx'
 import MovementForm from './MovementForm.jsx'
 import MovementList from './MovementList.jsx'
 import { cargarMovimientos, guardarMovimientos } from './storage.js'
@@ -24,6 +25,10 @@ function App() {
   return (
     <main>
       <h1>Contabilidad</h1>
+      <section>
+        <h2>Resumen</h2>
+        <Dashboard movimientos={movimientos} />
+      </section>
       <section>
         <h2>{editando ? 'Editar movimiento' : 'Nuevo movimiento'}</h2>
         <MovementForm

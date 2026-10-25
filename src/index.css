@@ -5,8 +5,9 @@
   --card: #fff;
   --border: #e5e4e7;
   --accent: #2563eb;
-  --ingreso: #15803d;
-  --gasto: #b91c1c;
+  --ingreso: #2a78d6;
+  --gasto: #eb6834;
+  --negativo: #b91c1c;
 
   font: 16px/1.45 system-ui, 'Segoe UI', Roboto, sans-serif;
   color-scheme: light dark;
@@ -22,8 +23,9 @@
     --card: #1f2028;
     --border: #2e303a;
     --accent: #60a5fa;
-    --ingreso: #4ade80;
-    --gasto: #f87171;
+    --ingreso: #3987e5;
+    --gasto: #d95926;
+    --negativo: #f87171;
   }
 }
 
