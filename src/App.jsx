@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Dashboard from './Dashboard.jsx'
 import Login from './Login.jsx'
+import Logo from './Logo.jsx'
 import MovementForm from './MovementForm.jsx'
 import MovementList from './MovementList.jsx'
 import { hoy } from './resumen.js'
@@ -81,10 +82,18 @@ function Contabilidad({ correo }) {
   return (
     <>
       <header className="barra-superior">
-        <div className="marca">
-          <span className="logo" aria-hidden="true">C</span>
+        <a
+          className="marca"
+          href="#"
+          aria-label="Ir al inicio"
+          onClick={(e) => {
+            e.preventDefault()
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+          }}
+        >
+          <Logo className="logo" />
           <h1>Contabilidad</h1>
-        </div>
+        </a>
         <div className="usuario">
           <small>{correo}</small>
           <button type="button" onClick={() => supabase.auth.signOut()}>

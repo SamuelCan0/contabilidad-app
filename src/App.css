@@ -10,29 +10,40 @@
   gap: 12px;
   padding: 12px 24px;
   background: var(--card);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 3px solid var(--accent);
 }
 
 .marca {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
 }
 
 .logo {
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: var(--accent);
-  color: #fff;
-  font-weight: 700;
+  display: block;
+  height: 56px;
+  width: auto;
+  flex-shrink: 0;
 }
+
+.logo .logo-naranja { fill: var(--figurart); }
+.logo .logo-gris { fill: var(--logo-gris); }
 
 .barra-superior h1 {
   font-size: 18px;
   margin: 0;
+  padding-left: 12px;
+  border-left: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+a.marca:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 6px;
 }
 
 .usuario {
@@ -69,6 +80,12 @@
 
 .area-resumen { grid-area: resumen; }
 .area-form { grid-area: form; }
+
+/* Tarjetas principales con el naranja de marca */
+.area-resumen,
+.area-form {
+  border-top: 3px solid var(--accent);
+}
 .area-categorias { grid-area: categorias; }
 .area-movimientos { grid-area: movimientos; }
 .area-pendientes { grid-area: pendientes; }
@@ -101,7 +118,7 @@
   .area-form {
     align-self: start;
     position: sticky;
-    top: 84px;
+    top: 100px;
   }
 }
 
@@ -228,19 +245,10 @@ button:disabled {
   font-weight: 500;
 }
 
-.tipo .activo.ingreso {
-  background: var(--ingreso);
+.tipo .activo {
+  background: var(--accent);
   color: #fff;
-}
-
-.tipo .activo.gasto {
-  background: var(--gasto);
-  color: #fff;
-}
-
-.tipo .activo.pendiente {
-  background: var(--pendiente);
-  color: #422006;
+  font-weight: 600;
 }
 
 .aviso {
@@ -279,7 +287,7 @@ button:disabled {
 
 .indicador.ingreso { --marca: var(--ingreso); }
 .indicador.gasto { --marca: var(--gasto); }
-.indicador.total { --marca: var(--text-h); }
+.indicador.total { --marca: var(--accent); }
 
 .indicador small {
   display: block;
@@ -470,7 +478,7 @@ button:disabled {
 .tabla summary {
   cursor: pointer;
   color: var(--accent);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .tabla table {
@@ -826,6 +834,7 @@ button.pagar {
 }
 
 .login section {
+  box-sizing: border-box;
   width: 100%;
   max-width: 380px;
   padding: 28px;
@@ -833,6 +842,19 @@ button.pagar {
 
 .login .marca {
   margin-bottom: 20px;
+}
+
+.login .logo {
+  height: 64px;
+}
+
+.login h1 {
+  padding-left: 12px;
+  border-left: 1px solid var(--border);
+}
+
+.login section {
+  border-top: 3px solid var(--accent);
 }
 
 .login h1 {
@@ -845,6 +867,20 @@ button.pagar {
 }
 
 @media (max-width: 520px) {
+  .logo {
+    height: 44px;
+  }
+
+  /* En celular no cabe el correo junto al logo */
+  .usuario small {
+    display: none;
+  }
+
+  .barra-superior h1 {
+    font-size: 16px;
+    padding-left: 10px;
+  }
+
   .barra-superior,
   .contenido {
     padding-left: 16px;

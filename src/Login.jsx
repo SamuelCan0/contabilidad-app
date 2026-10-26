@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { supabase } from './supabase.js'
+import Logo from './Logo.jsx'
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -20,7 +21,7 @@ export default function Login() {
     <main className="login">
       <section>
         <div className="marca">
-          <span className="logo" aria-hidden="true">C</span>
+          <Logo className="logo" />
           <h1>Contabilidad</h1>
         </div>
         <h2>Iniciar sesión</h2>
