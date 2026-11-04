@@ -11,6 +11,7 @@ import {
   borrarMovimiento,
   cargarMovimientos,
   crearMovimiento,
+  marcarPagado,
 } from './storage.js'
 import { supabase } from './supabase.js'
 import './App.css'
@@ -70,7 +71,7 @@ function Contabilidad({ correo }) {
   // Un pendiente cobrado se vuelve ingreso con la fecha de hoy.
   const pagar = (m) =>
     intentar(async () => {
-      const guardado = await actualizarMovimiento({ ...m, tipo: 'ingreso', fecha: hoy() })
+      const guardado = await marcarPagado(m.id, hoy())
       setMovimientos((prev) => prev.map((x) => (x.id === guardado.id ? guardado : x)))
       if (editando?.id === guardado.id) setEditando(null)
     })
@@ -111,7 +112,7 @@ function Contabilidad({ correo }) {
               <p className="vacio">Cargando…</p>
             </section>
           ) : (
-            <Dashboard movimientos={movimientos} onPagar={puedeEditar ? pagar : undefined} />
+            <Dashboard movimientos={movimientos} onPagar={pagar} />
           )}
           <section className="area-form">
             <div className="cabecera">
@@ -131,7 +132,7 @@ function Contabilidad({ correo }) {
             </div>
             {!puedeEditar && (
               <p className="aviso permisos">
-                Tu cuenta solo puede agregar movimientos. Para editar o borrar, pídelo a{' '}
+                Tu cuenta puede agregar movimientos y marcar pendientes como pagados. Para editar o borrar, pídelo a{' '}
                 {CORREO_ADMIN}.
               </p>
             )}
@@ -139,7 +140,7 @@ function Contabilidad({ correo }) {
               movimientos={ordenados}
               onEditar={puedeEditar ? setEditando : undefined}
               onBorrar={puedeEditar ? borrar : undefined}
-              onPagar={puedeEditar ? pagar : undefined}
+              onPagar={pagar}
             />
           </section>
         </div>

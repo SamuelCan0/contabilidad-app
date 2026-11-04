@@ -1,4 +1,4 @@
-// Única cuenta que puede editar, borrar y marcar pendientes como pagados.
+// Única cuenta que puede editar y borrar movimientos.
 // Debe coincidir con el correo en las políticas de supabase/schema.sql.
 export const CORREO_ADMIN = 'info@figurart.org'
 

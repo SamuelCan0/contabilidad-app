@@ -13,7 +13,7 @@ export default function MovementList({ movimientos, onEditar, onBorrar, onPagar 
         <span>Nombre</span>
         <span>Categoría</span>
         <span className="monto">Monto</span>
-        <span className="botones">{onEditar && 'Acciones'}</span>
+        <span className="botones">Acciones</span>
       </li>
       {movimientos.map((m) => (
         <li key={m.id} className={m.tipo === 'pendiente' ? 'pendiente' : undefined}>
