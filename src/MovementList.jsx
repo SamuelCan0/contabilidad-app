@@ -38,20 +38,24 @@ export default function MovementList({ movimientos, onEditar, onBorrar, onPagar 
             {formatoMXN.format(m.monto)}
           </span>
           <div className="botones">
-            {m.tipo === 'pendiente' && (
+            {onPagar && m.tipo === 'pendiente' && (
               <button type="button" className="pagar" onClick={() => onPagar(m)}>
                 Marcar como pagado
               </button>
             )}
-            <button type="button" onClick={() => onEditar(m)}>
-              Editar
-            </button>
-            <button
-              type="button"
-              onClick={() => confirm('¿Borrar este movimiento?') && onBorrar(m.id)}
-            >
-              Borrar
-            </button>
+            {onEditar && (
+              <button type="button" onClick={() => onEditar(m)}>
+                Editar
+              </button>
+            )}
+            {onBorrar && (
+              <button
+                type="button"
+                onClick={() => confirm('¿Borrar este movimiento?') && onBorrar(m.id)}
+              >
+                Borrar
+              </button>
+            )}
           </div>
         </li>
       ))}

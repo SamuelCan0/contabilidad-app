@@ -260,6 +260,10 @@ button:disabled {
   color: var(--pendiente-texto);
 }
 
+.aviso.permisos {
+  margin-bottom: 12px;
+}
+
 .acciones {
   display: flex;
   gap: 8px;

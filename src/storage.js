@@ -41,3 +41,11 @@ export async function actualizarMovimiento({ id, tipo, fecha, monto, categoria, 
 export async function borrarMovimiento(id) {
   revisar(await supabase.from('movimientos').delete().eq('id', id))
 }
+
+// Usa una función de Supabase para que cualquier usuario pueda cobrar un pendiente
+// sin tener permiso de editar.
+export async function marcarPagado(id, fecha) {
+  const data = revisar(await supabase.rpc('marcar_pagado', { p_id: id, p_fecha: fecha }))
+  if (!data?.id) throw new Error('El movimiento ya no está pendiente.')
+  return normalizar(data)
+}

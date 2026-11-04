@@ -4,12 +4,14 @@ import Login from './Login.jsx'
 import Logo from './Logo.jsx'
 import MovementForm from './MovementForm.jsx'
 import MovementList from './MovementList.jsx'
+import { CORREO_ADMIN, esAdmin } from './permisos.js'
 import { hoy } from './resumen.js'
 import {
   actualizarMovimiento,
   borrarMovimiento,
   cargarMovimientos,
   crearMovimiento,
+  marcarPagado,
 } from './storage.js'
 import { supabase } from './supabase.js'
 import './App.css'
@@ -33,6 +35,7 @@ function Contabilidad({ correo }) {
   const [cargando, setCargando] = useState(true)
   const [error, setError] = useState('')
   const [editando, setEditando] = useState(null)
+  const puedeEditar = esAdmin(correo)
 
   useEffect(() => {
     cargarMovimientos()
@@ -68,7 +71,7 @@ function Contabilidad({ correo }) {
   // Un pendiente cobrado se vuelve ingreso con la fecha de hoy.
   const pagar = (m) =>
     intentar(async () => {
-      const guardado = await actualizarMovimiento({ ...m, tipo: 'ingreso', fecha: hoy() })
+      const guardado = await marcarPagado(m.id, hoy())
       setMovimientos((prev) => prev.map((x) => (x.id === guardado.id ? guardado : x)))
       if (editando?.id === guardado.id) setEditando(null)
     })
@@ -127,10 +130,16 @@ function Contabilidad({ correo }) {
               <h2>Movimientos</h2>
               <small>{movimientos.length} en total</small>
             </div>
+            {!puedeEditar && (
+              <p className="aviso permisos">
+                Tu cuenta puede agregar movimientos y marcar pendientes como pagados. Para editar o borrar, pídelo a{' '}
+                {CORREO_ADMIN}.
+              </p>
+            )}
             <MovementList
               movimientos={ordenados}
-              onEditar={setEditando}
-              onBorrar={borrar}
+              onEditar={puedeEditar ? setEditando : undefined}
+              onBorrar={puedeEditar ? borrar : undefined}
               onPagar={pagar}
             />
           </section>
