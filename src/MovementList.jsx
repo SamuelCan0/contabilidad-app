@@ -13,7 +13,7 @@ export default function MovementList({ movimientos, onEditar, onBorrar, onPagar 
         <span>Nombre</span>
         <span>Categoría</span>
         <span className="monto">Monto</span>
-        <span className="botones">Acciones</span>
+        <span className="botones">{onEditar && 'Acciones'}</span>
       </li>
       {movimientos.map((m) => (
         <li key={m.id} className={m.tipo === 'pendiente' ? 'pendiente' : undefined}>
@@ -38,20 +38,24 @@ export default function MovementList({ movimientos, onEditar, onBorrar, onPagar 
             {formatoMXN.format(m.monto)}
           </span>
           <div className="botones">
-            {m.tipo === 'pendiente' && (
+            {onPagar && m.tipo === 'pendiente' && (
               <button type="button" className="pagar" onClick={() => onPagar(m)}>
                 Marcar como pagado
               </button>
             )}
-            <button type="button" onClick={() => onEditar(m)}>
-              Editar
-            </button>
-            <button
-              type="button"
-              onClick={() => confirm('¿Borrar este movimiento?') && onBorrar(m.id)}
-            >
-              Borrar
-            </button>
+            {onEditar && (
+              <button type="button" onClick={() => onEditar(m)}>
+                Editar
+              </button>
+            )}
+            {onBorrar && (
+              <button
+                type="button"
+                onClick={() => confirm('¿Borrar este movimiento?') && onBorrar(m.id)}
+              >
+                Borrar
+              </button>
+            )}
           </div>
         </li>
       ))}

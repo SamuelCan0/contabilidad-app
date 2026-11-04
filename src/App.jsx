@@ -4,6 +4,7 @@ import Login from './Login.jsx'
 import Logo from './Logo.jsx'
 import MovementForm from './MovementForm.jsx'
 import MovementList from './MovementList.jsx'
+import { CORREO_ADMIN, esAdmin } from './permisos.js'
 import { hoy } from './resumen.js'
 import {
   actualizarMovimiento,
@@ -33,6 +34,7 @@ function Contabilidad({ correo }) {
   const [cargando, setCargando] = useState(true)
   const [error, setError] = useState('')
   const [editando, setEditando] = useState(null)
+  const puedeEditar = esAdmin(correo)
 
   useEffect(() => {
     cargarMovimientos()
@@ -109,7 +111,7 @@ function Contabilidad({ correo }) {
               <p className="vacio">Cargando…</p>
             </section>
           ) : (
-            <Dashboard movimientos={movimientos} onPagar={pagar} />
+            <Dashboard movimientos={movimientos} onPagar={puedeEditar ? pagar : undefined} />
           )}
           <section className="area-form">
             <div className="cabecera">
@@ -127,11 +129,17 @@ function Contabilidad({ correo }) {
               <h2>Movimientos</h2>
               <small>{movimientos.length} en total</small>
             </div>
+            {!puedeEditar && (
+              <p className="aviso permisos">
+                Tu cuenta solo puede agregar movimientos. Para editar o borrar, pídelo a{' '}
+                {CORREO_ADMIN}.
+              </p>
+            )}
             <MovementList
               movimientos={ordenados}
-              onEditar={setEditando}
-              onBorrar={borrar}
-              onPagar={pagar}
+              onEditar={puedeEditar ? setEditando : undefined}
+              onBorrar={puedeEditar ? borrar : undefined}
+              onPagar={puedeEditar ? pagar : undefined}
             />
           </section>
         </div>

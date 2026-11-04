@@ -142,9 +142,11 @@ function Pendientes({ pendientes, periodo, onPagar }) {
                   </small>
                 </div>
                 <span className="monto">{formatoMXN.format(m.monto)}</span>
-                <button type="button" className="pagar" onClick={() => onPagar(m)}>
-                  Marcar como pagado
-                </button>
+                {onPagar && (
+                  <button type="button" className="pagar" onClick={() => onPagar(m)}>
+                    Marcar como pagado
+                  </button>
+                )}
               </li>
             ))}
           </ul>
