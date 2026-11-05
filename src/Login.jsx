@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { supabase } from './supabase.js'
 import Logo from './Logo.jsx'
 
-export default function Login() {
+export default function Login({ porInactividad = false }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -25,6 +25,9 @@ export default function Login() {
           <h1>Contabilidad</h1>
         </div>
         <h2>Iniciar sesión</h2>
+        {porInactividad && (
+          <p className="aviso sesion-cerrada">Cerramos tu sesión tras 10 minutos sin actividad. Vuelve a entrar.</p>
+        )}
         <form className="form" onSubmit={entrar}>
           <label>
             Correo

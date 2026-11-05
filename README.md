@@ -19,3 +19,9 @@ npm run dev
 ## Publicar en Vercel
 
 Importa el repo en vercel.com. Vercel detecta Vite solo. Las variables de `.env` ya vienen en el repo.
+
+## Seguridad de la sesión
+
+- **10 min sin actividad:** la sesión se cierra sola. Un minuto antes sale el aviso "¿Sigues ahí?". Cualquier click, tecla, scroll o movimiento del mouse reinicia la cuenta (`src/inactividad.js`).
+- **Cerrar la pestaña:** la sesión se guarda en `sessionStorage`, no en `localStorage`. Un refresh la conserva; cerrar la pestaña o el navegador la borra y al volver pide correo y contraseña.
+- **Contraseñas:** la app nunca guarda contraseñas. Las maneja Supabase Auth, que las almacena cifradas con bcrypt (hash con sal, no se pueden leer ni de vuelta). Ni el admin del proyecto puede verlas; solo se pueden cambiar. Viajan por HTTPS.
