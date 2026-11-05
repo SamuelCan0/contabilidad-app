@@ -921,3 +921,42 @@ button.pagar {
 .lista li.pendiente .botones {
   opacity: 1;
 }
+
+/* ---------- Aviso de inactividad ---------- */
+
+.inactividad {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgb(0 0 0 / 45%);
+}
+
+.inactividad section {
+  width: min(100%, 360px);
+  padding: 24px;
+  border-radius: 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 20%);
+  text-align: center;
+}
+
+.inactividad h2 {
+  margin: 0 0 8px;
+}
+
+.inactividad p {
+  margin: 0 0 20px;
+}
+
+.inactividad .primario {
+  width: 100%;
+  padding: 10px 14px;
+}
+
+.aviso.sesion-cerrada {
+  margin-bottom: 16px;
+}

@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Dashboard from './Dashboard.jsx'
+import { olvidarActividad, sesionVencida, useInactividad } from './inactividad.js'
 import Login from './Login.jsx'
 import Logo from './Logo.jsx'
 import MovementForm from './MovementForm.jsx'
@@ -18,19 +19,39 @@ import './App.css'
 
 function App() {
   const [sesion, setSesion] = useState(undefined)
+  const [porInactividad, setPorInactividad] = useState(false)
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setSesion(data.session))
-    const { data } = supabase.auth.onAuthStateChange((_evento, s) => setSesion(s))
-    return () => data.subscription.unsubscribe()
+  // scope 'local' cierra solo este navegador; no saca al socio de sus otros equipos.
+  const cerrarPorInactividad = useCallback(() => {
+    setPorInactividad(true)
+    supabase.auth.signOut({ scope: 'local' })
   }, [])
 
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      // Refresh después de 10 min sin actividad: también se cierra.
+      if (data.session && sesionVencida()) {
+        olvidarActividad()
+        cerrarPorInactividad()
+        setSesion(null)
+        return
+      }
+      setSesion(data.session)
+    })
+    const { data } = supabase.auth.onAuthStateChange((_evento, s) => {
+      setSesion(s)
+      if (s) setPorInactividad(false)
+    })
+    return () => data.subscription.unsubscribe()
+  }, [cerrarPorInactividad])
+
   if (sesion === undefined) return <p className="cargando">Cargando…</p>
-  if (!sesion) return <Login />
-  return <Contabilidad correo={sesion.user.email} />
+  if (!sesion) return <Login porInactividad={porInactividad} />
+  return <Contabilidad correo={sesion.user.email} alVencer={cerrarPorInactividad} />
 }
 
-function Contabilidad({ correo }) {
+function Contabilidad({ correo, alVencer }) {
+  const restante = useInactividad(alVencer)
   const [movimientos, setMovimientos] = useState([])
   const [cargando, setCargando] = useState(true)
   const [error, setError] = useState('')
@@ -99,7 +120,13 @@ function Contabilidad({ correo }) {
         </a>
         <div className="usuario">
           <small>{correo}</small>
-          <button type="button" onClick={() => supabase.auth.signOut()}>
+          <button
+            type="button"
+            onClick={() => {
+              olvidarActividad()
+              supabase.auth.signOut({ scope: 'local' })
+            }}
+          >
             Salir
           </button>
         </div>
@@ -145,6 +172,19 @@ function Contabilidad({ correo }) {
           </section>
         </div>
       </main>
+      {restante !== null && (
+        <div className="inactividad" role="alertdialog" aria-live="assertive" aria-labelledby="inactividad-titulo">
+          <section>
+            <h2 id="inactividad-titulo">¿Sigues ahí?</h2>
+            <p>
+              Por seguridad, tu sesión se cerrará en <strong>{restante} s</strong> por inactividad.
+            </p>
+            <button type="button" className="primario">
+              Seguir aquí
+            </button>
+          </section>
+        </div>
+      )}
     </>
   )
 }
