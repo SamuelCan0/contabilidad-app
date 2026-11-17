@@ -66,3 +66,6 @@ $$;
 
 revoke all on function public.marcar_pagado(uuid, date) from public, anon;
 grant execute on function public.marcar_pagado(uuid, date) to authenticated;
+
+-- Avisa a Supabase que recargue sus funciones para que vea marcar_pagado al instante.
+notify pgrst, 'reload schema';
