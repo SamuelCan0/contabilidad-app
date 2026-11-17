@@ -960,3 +960,47 @@ button.pagar {
 .aviso.sesion-cerrada {
   margin-bottom: 16px;
 }
+
+/* ---------- Paginación ---------- */
+.paginacion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.paginacion small {
+  color: var(--muted);
+}
+
+.paginacion div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.paginacion button {
+  padding: 6px 12px;
+  min-width: 38px;
+}
+
+.paginacion button.activa {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+.paginacion .puntos {
+  color: var(--muted);
+  padding: 0 2px;
+}
+
+@media (max-width: 520px) {
+  .paginacion .texto {
+    display: none;
+  }
+}
