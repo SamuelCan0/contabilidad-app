@@ -65,11 +65,11 @@ export default function MovementForm({ inicial, onGuardar, onCancelar }) {
         </label>
       </div>
       <label>
-        {datos.tipo === 'gasto' ? 'Proveedor' : 'Cliente'}
+        {datos.tipo === 'gasto' ? 'Compra' : 'Cliente'}
         <input
           value={datos.cliente}
           onChange={cambiar('cliente')}
-          placeholder={datos.tipo === 'gasto' ? 'Ej. Ferretería López (opcional)' : 'Ej. María Pérez (opcional)'}
+          placeholder={datos.tipo === 'gasto' ? 'Ej. Filamento PLA (opcional)' : 'Ej. María Pérez (opcional)'}
           maxLength={80}
         />
       </label>
@@ -82,8 +82,8 @@ export default function MovementForm({ inicial, onGuardar, onCancelar }) {
         </select>
       </label>
       <label>
-        Nota
-        <input value={datos.nota} onChange={cambiar('nota')} placeholder="Opcional" />
+        Método de pago
+        <input value={datos.nota} onChange={cambiar('nota')} placeholder="Ej. Efectivo, transferencia (opcional)" />
       </label>
       <div className="acciones">
         <button type="submit" className="primario">
