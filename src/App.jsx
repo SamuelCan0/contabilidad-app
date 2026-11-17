@@ -12,6 +12,7 @@ import {
   borrarMovimiento,
   cargarMovimientos,
   crearMovimiento,
+  ErrorVisible,
   marcarPagado,
 } from './storage.js'
 import { supabase } from './supabase.js'
@@ -69,8 +70,12 @@ function Contabilidad({ correo, alVencer }) {
     setError('')
     try {
       await accion()
-    } catch {
-      setError('No se guardó el cambio. Revisa tu conexión e intenta de nuevo.')
+    } catch (e) {
+      setError(
+        e instanceof ErrorVisible
+          ? e.message
+          : 'No se guardó el cambio. Revisa tu conexión e intenta de nuevo.',
+      )
     }
   }
 
